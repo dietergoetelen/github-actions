@@ -7,6 +7,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Test action
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 14
+
+      - name: Install dependencies
         run: |
-          echo 'Hello world'
+          npm ci
+
+      - name: Build vue app
+        run: |
+          npm run build
+
+      - name: Lint the code
+        run: |
+          npm run lint --check
+
+      - name: Verify tests
+        run: |
+          npm run test:unit
